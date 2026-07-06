@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
+import HeroFrame from "@/components/HeroFrame";
 import SectionsNav from "@/components/sections/SectionsNav";
 
 export default async function Home({
@@ -11,7 +12,7 @@ export default async function Home({
   setRequestLocale(locale);
 
   return (
-    <div
+    <HeroFrame
       className="fixed inset-0 flex flex-col overflow-hidden bg-white bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/assets/website-background.webp')" }}
     >
@@ -31,11 +32,11 @@ export default async function Home({
         height={2560}
         priority
         aria-hidden
-        className="animate-slide-in-right pointer-events-none absolute bottom-0 right-0 h-full w-auto translate-x-10 select-none sm:translate-x-0"
+        className="animate-slide-in-right pointer-events-none absolute bottom-0 right-0 hidden h-full w-auto select-none sm:block"
       />
       <div
         aria-hidden
-        className="animate-slide-in-down pointer-events-none absolute inset-x-0 top-[30px] mx-auto w-[4.5rem] select-none sm:top-10 sm:w-32"
+        className="animate-slide-in-down pointer-events-none absolute right-4 bottom-4 w-10 select-none sm:inset-x-0 sm:right-auto sm:bottom-auto sm:top-10 sm:mx-auto sm:w-32"
       >
         <Image
           src="/assets/monogram.webp"
@@ -47,6 +48,6 @@ export default async function Home({
         />
       </div>
       <SectionsNav />
-    </div>
+    </HeroFrame>
   );
 }

@@ -4,7 +4,7 @@ export default function SectionContainer({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-2 px-6 text-center text-sm text-[#6B835B] sm:max-w-md sm:text-base">
+    <div className="ml-auto mr-4 flex w-fit max-w-[75%] flex-col items-end gap-2 text-right text-sm text-[#6B835B] sm:mx-auto sm:mr-auto sm:w-full sm:max-w-md sm:items-center sm:px-6 sm:text-center sm:text-base">
       {children}
     </div>
   );
