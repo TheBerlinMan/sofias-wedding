@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sofia & Mateus — Wedding Site
 
-## Getting Started
+A [Next.js](https://nextjs.org) (App Router) + React + TypeScript + Tailwind CSS
+wedding site, internationalized with [next-intl](https://next-intl.dev).
 
-First, run the development server:
+Copy starts in **English** (`en`) and is ready to transition to
+**Brazilian Portuguese** (`pt-BR`). A language switcher in the header lets you
+move between the two.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev      # start the dev server at http://localhost:3000
+npm run build    # production build
+npm run start    # serve the production build
+npm run lint     # lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visiting `/` redirects to the default locale (`/en`). Each locale is served
+under its own path: `/en`, `/pt-BR`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How i18n is wired up
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| File | Purpose |
+| --- | --- |
+| `src/i18n/routing.ts` | Locale list, default locale, and switcher labels. **Edit here to add a language.** |
+| `src/i18n/request.ts` | Loads the right message catalog per request. |
+| `src/i18n/navigation.ts` | Locale-aware `Link`, `useRouter`, `usePathname`, `redirect`. |
+| `src/proxy.ts` | Locale detection + redirect (Next.js 16 "proxy" convention). |
+| `next.config.ts` | Registers the next-intl plugin. |
+| `messages/en.json`, `messages/pt-BR.json` | Translation strings, one file per locale. |
+| `src/app/[locale]/` | All pages live under the `[locale]` segment. |
+| `src/components/LanguageSwitcher.tsx` | Header dropdown to switch language. |
 
-## Learn More
+### Translating to Brazilian Portuguese
 
-To learn more about Next.js, take a look at the following resources:
+Edit `messages/pt-BR.json` — the keys mirror `messages/en.json`. Update the
+values as the real copy is finalized. Components reference strings by key
+(e.g. `t("hero.rsvp")`), so changing translations never touches component code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Adding another language
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Add the locale code to `locales` in `src/i18n/routing.ts` and a label in
+   `localeLabels`.
+2. Create `messages/<locale>.json` mirroring the existing keys.
 
-## Deploy on Vercel
+That's it — the switcher and routing pick it up automatically.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> **Note:** `Sofia & Mateus`, the date, and location are placeholders. Names are
+> in the JSX (`src/app/[locale]/page.tsx`); the date/location/details strings
+> are in the message files.
