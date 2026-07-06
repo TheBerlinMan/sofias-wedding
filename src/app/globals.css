@@ -9,6 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-natalya-monoline), Arial, Helvetica, sans-serif;
+  --font-raleway: var(--font-raleway), Arial, Helvetica, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

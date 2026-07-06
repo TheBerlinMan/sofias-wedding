@@ -31,3 +31,10 @@ export const natalyaMonoline = localFont({
   variable: "--font-natalya-monoline",
   display: "swap",
 });
+
+export const raleway = localFont({
+  src: "./fonts/raleway/Raleway-VariableFont_wght.ttf",
+  weight: "100 900",
+  variable: "--font-raleway",
+  display: "swap",
+});

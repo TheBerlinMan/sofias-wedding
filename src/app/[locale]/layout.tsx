@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { natalyaMonoline } from "../fonts";
+import { natalyaMonoline, raleway } from "../fonts";
 import "../globals.css";
 
 // Pre-render a static page for each supported locale at build time.
@@ -45,7 +45,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${natalyaMonoline.variable} h-full antialiased`}
+      className={`${natalyaMonoline.variable} ${raleway.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>

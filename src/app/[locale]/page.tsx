@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import SectionsNav from "@/components/sections/SectionsNav";
 
 export default async function Home({
   params,
@@ -8,8 +9,6 @@ export default async function Home({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-
-  const t = await getTranslations("nav");
 
   return (
     <div
@@ -47,13 +46,7 @@ export default async function Home({
           className="relative h-auto w-full drop-shadow-2xl sm:drop-shadow-none"
         />
       </div>
-      <nav className="animate-fade-in absolute inset-x-0 top-56 flex flex-col items-center gap-6 text-2xl font-normal text-[#6B835B] sm:top-56 sm:flex-row sm:justify-center sm:gap-10 sm:text-2xl">
-        <a href="#home">{t("home")}</a>
-        <a href="#story">{t("story")}</a>
-        <a href="#details">{t("details")}</a>
-        <a href="#rsvp">{t("rsvp")}</a>
-        <a href="#registry">{t("registry")}</a>
-      </nav>
+      <SectionsNav />
     </div>
   );
 }
