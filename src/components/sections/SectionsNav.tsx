@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { content } from "@/content";
 import CeremonySection from "./CeremonySection";
 import ReceptionSection from "./ReceptionSection";
 import GiftRegistrySection from "./GiftRegistrySection";
@@ -19,7 +19,6 @@ type SectionKey = keyof typeof SECTIONS;
 const SECTION_KEYS = Object.keys(SECTIONS) as SectionKey[];
 
 export default function SectionsNav() {
-  const t = useTranslations("nav");
   const [active, setActive] = useState<SectionKey | null>("ceremony");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -72,7 +71,7 @@ export default function SectionsNav() {
                 active === key ? "underline underline-offset-4" : ""
               }`}
             >
-              {t(key)}
+              {content.nav[key]}
             </button>
           ))}
           <Image
@@ -95,7 +94,7 @@ export default function SectionsNav() {
               onClick={() => selectSection(key)}
               className={active === key ? "underline underline-offset-4" : ""}
             >
-              {t(key)}
+              {content.nav[key]}
             </button>
           ))}
         </nav>
@@ -106,7 +105,7 @@ export default function SectionsNav() {
             className="animate-section-fade-in min-h-0 w-full flex-1 overflow-y-auto"
           >
             <h2 className="mr-6 text-right font-sans text-2xl font-bold text-[#6B835B] sm:hidden">
-              {t(active)}
+              {content.nav[active]}
             </h2>
             <ActivePanel />
           </div>

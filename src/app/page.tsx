@@ -1,15 +1,7 @@
-import { setRequestLocale } from "next-intl/server";
 import HeroFrame from "@/components/HeroFrame";
 import HeroStage from "@/components/HeroStage";
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  setRequestLocale(locale);
-
+export default function Home() {
   return (
     <HeroFrame
       className="fixed inset-0 flex flex-col overflow-hidden bg-white bg-cover bg-center bg-no-repeat"

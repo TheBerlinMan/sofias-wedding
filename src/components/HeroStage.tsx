@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { content } from "@/content";
 import SectionsNav from "@/components/sections/SectionsNav";
 
 // On mobile the page opens as a splash: both palms, the monogram centered,
@@ -10,7 +10,6 @@ import SectionsNav from "@/components/sections/SectionsNav";
 // content, hamburger, and the small bottom-right monogram. Desktop (sm+)
 // never shows the splash and keeps the original layout/choreography.
 export default function HeroStage() {
-  const t = useTranslations("splash");
   const [entered, setEntered] = useState(false);
 
   return (
@@ -59,7 +58,7 @@ export default function HeroStage() {
           onClick={() => setEntered(true)}
           className="animate-fade-in px-6 py-2 font-sans text-3xl font-bold text-[#6B835B] underline underline-offset-4"
         >
-          {t("enter")}
+          {content.splash.enter}
         </button>
       </div>
 

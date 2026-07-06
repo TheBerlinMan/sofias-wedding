@@ -28,70 +28,64 @@ const MAX_LINES = 150;
 type FontSpec = { font: string; lineHeightPx: number };
 type Run = { text: string; bold: boolean };
 
-// Splits already-wrapped line texts into bold/normal runs. `emphasize`
-// substrings get bolded; when a substring is split across a line break we
-// match word-boundary prefixes at the line end and carry the remainder to
-// the next line.
+// Splits already-wrapped line texts into bold/normal runs. Line breaks are
+// treated as single spaces: the lines are re-joined, each `emphasize`
+// substring is located by character offset in that joined stream, and the
+// bold ranges are mapped back onto the lines they intersect. This survives a
+// substring being split across any line boundary (or several), regardless of
+// where the wrap engine chose to break.
 function markEmphasis(lineTexts: string[], emphasize: string[]): Run[][] {
-  const out: Run[][] = [];
-  let pendingSuffix: string | null = null;
-
+  // Pretext hangs the breaking space off the end of the line (CSS behavior),
+  // so line texts may already end with " ". Only insert a separator when the
+  // break consumed the space, or matching would trip on double spaces.
+  let joined = "";
+  const lineStarts: number[] = [];
   for (const lineText of lineTexts) {
-    const runs: Run[] = [];
-    let t = lineText;
-
-    if (pendingSuffix !== null) {
-      if (t.startsWith(pendingSuffix)) {
-        runs.push({ text: pendingSuffix, bold: true });
-        t = t.slice(pendingSuffix.length);
-      }
-      pendingSuffix = null;
+    if (
+      joined !== "" &&
+      lineText !== "" &&
+      !joined.endsWith(" ") &&
+      !lineText.startsWith(" ")
+    ) {
+      joined += " ";
     }
-
-    while (t.length > 0) {
-      let earliest: { start: number; end: number } | null = null;
-      for (const e of emphasize) {
-        if (!e) continue;
-        const idx = t.indexOf(e);
-        if (idx !== -1 && (earliest === null || idx < earliest.start)) {
-          earliest = { start: idx, end: idx + e.length };
-        }
-      }
-      if (earliest) {
-        if (earliest.start > 0) {
-          runs.push({ text: t.slice(0, earliest.start), bold: false });
-        }
-        runs.push({ text: t.slice(earliest.start, earliest.end), bold: true });
-        t = t.slice(earliest.end);
-        continue;
-      }
-
-      let matchedPrefix = false;
-      for (const e of emphasize) {
-        const words = e.split(" ");
-        for (let k = words.length - 1; k >= 1 && !matchedPrefix; k--) {
-          const prefix = words.slice(0, k).join(" ");
-          if (!prefix || !t.endsWith(prefix)) continue;
-          const beforeIndex = t.length - prefix.length - 1;
-          if (beforeIndex >= 0 && !/\s/.test(t[beforeIndex])) continue;
-          const rest = t.slice(0, t.length - prefix.length);
-          if (rest) runs.push({ text: rest, bold: false });
-          runs.push({ text: prefix, bold: true });
-          pendingSuffix = words.slice(k).join(" ");
-          t = "";
-          matchedPrefix = true;
-        }
-        if (matchedPrefix) break;
-      }
-      if (!matchedPrefix) {
-        runs.push({ text: t, bold: false });
-        t = "";
-      }
-    }
-
-    out.push(runs);
+    lineStarts.push(joined.length);
+    joined += lineText;
   }
-  return out;
+
+  const ranges: { start: number; end: number }[] = [];
+  for (const e of emphasize) {
+    if (!e) continue;
+    let from = 0;
+    for (;;) {
+      const idx = joined.indexOf(e, from);
+      if (idx === -1) break;
+      ranges.push({ start: idx, end: idx + e.length });
+      from = idx + e.length;
+    }
+  }
+  ranges.sort((a, b) => a.start - b.start);
+
+  return lineTexts.map((lineText, i) => {
+    const lineStart = lineStarts[i];
+    const lineEnd = lineStart + lineText.length;
+    const runs: Run[] = [];
+    let pos = lineStart;
+    for (const range of ranges) {
+      if (range.start >= lineEnd || range.end <= pos) continue;
+      const boldStart = Math.max(range.start, lineStart);
+      const boldEnd = Math.min(range.end, lineEnd);
+      if (boldStart > pos) {
+        runs.push({ text: joined.slice(pos, boldStart), bold: false });
+      }
+      runs.push({ text: joined.slice(boldStart, boldEnd), bold: true });
+      pos = boldEnd;
+    }
+    if (pos < lineEnd) {
+      runs.push({ text: joined.slice(pos, lineEnd), bold: false });
+    }
+    return runs;
+  });
 }
 
 function renderRuns(runs: Run[]) {
