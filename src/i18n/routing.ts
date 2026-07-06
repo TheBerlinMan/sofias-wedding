@@ -1,12 +1,11 @@
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
-  // The two locales we support. Start in English; Brazilian Portuguese is
-  // wired up and ready for copy to be translated over time.
+  // The two locales we support.
   locales: ["en", "pt-BR"],
 
   // Default locale used when no locale matches (e.g. on the bare "/" path).
-  defaultLocale: "en",
+  defaultLocale: "pt-BR",
 });
 
 export type Locale = (typeof routing.locales)[number];

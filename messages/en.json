@@ -3,6 +3,9 @@
     "title": "Sofia & Mateus — We're getting married",
     "description": "Join us to celebrate the wedding of Sofia and Mateus."
   },
+  "splash": {
+    "enter": "Enter"
+  },
   "nav": {
     "ceremony": "Ceremony",
     "reception": "Reception",

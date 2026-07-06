@@ -21,20 +21,20 @@ export default function CeremonySection() {
       <div className="font-raleway flex flex-col gap-6">
         <ShapeWrappedText text={t("invitation")} />
         <div>
-          <h3 className="font-sans text-2xl font-bold sm:text-3xl">
+          <h3 className="mr-2 font-sans text-2xl font-bold sm:mr-0 sm:text-3xl">
             {t("timeLabel")}
           </h3>
           <ShapeWrappedText text={whenText} emphasize={whenEmphasize} />
         </div>
         <div>
-          <h3 className="font-sans text-2xl font-bold sm:text-3xl">
+          <h3 className="mr-2 font-sans text-2xl font-bold sm:mr-0 sm:text-3xl">
             {t("locationLabel")}
           </h3>
           <ShapeWrappedText text={t("addressLine1")} />
           <ShapeWrappedText text={t("addressLine2")} />
         </div>
         <div>
-          <h3 className="font-sans text-2xl font-bold sm:text-3xl">
+          <h3 className="mr-2 font-sans text-2xl font-bold sm:mr-0 sm:text-3xl">
             {t("dressCodeLabel")}
           </h3>
           <ShapeWrappedText text={t("dressCode")} />

@@ -85,11 +85,17 @@ body {
   animation: fade-in 0.8s ease-out 2.2s both;
 }
 
+/* Replays when the active section changes (the panel is keyed by section). */
+.animate-section-fade-in {
+  animation: fade-in 0.45s ease-in both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-slide-in-left,
   .animate-slide-in-right,
   .animate-slide-in-down,
-  .animate-fade-in {
+  .animate-fade-in,
+  .animate-section-fade-in {
     animation: none;
   }
 }

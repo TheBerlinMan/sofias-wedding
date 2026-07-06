@@ -3,6 +3,9 @@
     "title": "Sofia & Mateus — Vamos nos casar",
     "description": "Venha celebrar o casamento de Sofia e Mateus."
   },
+  "splash": {
+    "enter": "Entrar"
+  },
   "nav": {
     "ceremony": "Cerimônia",
     "reception": "Recepção",

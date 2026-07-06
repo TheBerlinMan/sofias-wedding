@@ -97,7 +97,7 @@ function markEmphasis(lineTexts: string[], emphasize: string[]): Run[][] {
 function renderRuns(runs: Run[]) {
   return runs.map((run, i) =>
     run.bold ? (
-      <strong key={i} className="font-bold">
+      <strong key={i} className="font-extrabold">
         {run.text}
       </strong>
     ) : (
