@@ -2,7 +2,8 @@
 export const content = {
   metadata: {
     title: "Sofia & Henrique — Vamos nos casar",
-    description: "Venha celebrar o casamento de Sofia e Henrique.",
+    description:
+      "Venha celebrar o casamento de Sofia e Henrique no dia 17 de outubro de 2026.",
   },
   splash: {
     enter: "Entrar",
