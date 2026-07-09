@@ -41,6 +41,7 @@ export const content = {
     body: "Caso deseje nos presentear, disponibilizamos uma lista de presentes para facilitar a sua escolha.",
     thanks: "Agradecemos o carinho.",
     cta: "Ver Lista de Presentes",
+    url: "https://noivos.casar.com/s-h#/presentes",
   },
   rsvp: {
     intro: "Ficaremos muito felizes em contar com a sua presença.",
@@ -51,5 +52,6 @@ export const content = {
     thanks:
       "Agradecemos o carinho e esperamos celebrar esse dia tão especial ao seu lado.",
     button: "Confirmar presença",
+    url: "https://noivos.casar.com/s-h#/rsvp",
   },
 } as const;

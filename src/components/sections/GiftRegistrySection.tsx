@@ -10,7 +10,9 @@ export default function GiftRegistrySection() {
       <div className="font-raleway flex flex-col gap-6">
         <ShapeWrappedText text={content.registry.body} />
         <a
-          href="#"
+          href={content.registry.url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="font-sans text-2xl font-bold underline underline-offset-4 sm:text-3xl px-4 py-2"
         >
           {content.registry.cta}

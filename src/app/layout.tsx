@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { content } from "@/content";
+import MusicProvider from "@/components/MusicProvider";
 import { natalyaMonoline, raleway } from "./fonts";
 import "./globals.css";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${natalyaMonoline.variable} ${raleway.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <MusicProvider>{children}</MusicProvider>
+      </body>
     </html>
   );
 }

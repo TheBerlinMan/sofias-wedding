@@ -11,7 +11,9 @@ export default function RsvpSection() {
         <ShapeWrappedText text={content.rsvp.intro} />
         <ShapeWrappedText text={content.rsvp.deadline} />
         <a
-          href="#"
+          href={content.rsvp.url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="font-sans text-2xl font-bold underline underline-offset-4 sm:text-3xl px-4 py-2"
         >
           {content.rsvp.button}

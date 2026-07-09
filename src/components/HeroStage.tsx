@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { content } from "@/content";
 import SectionsNav from "@/components/sections/SectionsNav";
+import { useMusic, MusicToggleButton } from "@/components/MusicProvider";
 
 // On mobile the page opens as a splash: both palms, the monogram centered,
 // and an Enter button. Entering slides the right palm off and fades in the
@@ -11,6 +12,7 @@ import SectionsNav from "@/components/sections/SectionsNav";
 // never shows the splash and keeps the original layout/choreography.
 export default function HeroStage() {
   const [entered, setEntered] = useState(false);
+  const { start } = useMusic();
 
   return (
     <>
@@ -55,7 +57,10 @@ export default function HeroStage() {
         </div>
         <button
           type="button"
-          onClick={() => setEntered(true)}
+          onClick={() => {
+            setEntered(true);
+            start();
+          }}
           className="animate-fade-in px-6 py-2 font-sans text-3xl font-bold text-[#6B835B] underline underline-offset-4"
         >
           {content.splash.enter}
@@ -84,6 +89,7 @@ export default function HeroStage() {
           />
         </div>
         <SectionsNav />
+        <MusicToggleButton className="fixed top-4 right-16 z-30 sm:top-auto sm:right-auto sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2" />
       </div>
     </>
   );
