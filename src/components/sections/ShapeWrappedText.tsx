@@ -139,6 +139,7 @@ export default function ShapeWrappedText({
     if (!el) return;
 
     let raf = 0;
+    let settleTimer = 0;
     const measure = () => {
       raf = 0;
       const node = wrapperRef.current;
@@ -166,12 +167,21 @@ export default function ShapeWrappedText({
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(measure);
     };
+    // Reflowing while a scroll gesture is in flight changes the panel's
+    // scrollHeight under the user's finger; the browser then re-clamps (or
+    // scroll-anchors) the position every frame, which fights the gesture and
+    // can leave the panel feeling frozen. Wait for the scroll to settle
+    // before re-measuring.
+    const scheduleAfterSettle = () => {
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(schedule, 150);
+    };
 
     schedule();
-    window.addEventListener("resize", schedule);
+    window.addEventListener("resize", scheduleAfterSettle);
     // Capture-phase catches the content panel's inner scroll, not just the
     // window's.
-    window.addEventListener("scroll", schedule, true);
+    window.addEventListener("scroll", scheduleAfterSettle, true);
 
     // Observe every ancestor up to the scrollable panel: a preceding
     // paragraph growing/shrinking anywhere in that chain shifts this one
@@ -189,8 +199,9 @@ export default function ShapeWrappedText({
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener("resize", schedule);
-      window.removeEventListener("scroll", schedule, true);
+      window.clearTimeout(settleTimer);
+      window.removeEventListener("resize", scheduleAfterSettle);
+      window.removeEventListener("scroll", scheduleAfterSettle, true);
       observer.disconnect();
     };
   }, [isMobile]);

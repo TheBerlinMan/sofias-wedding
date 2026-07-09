@@ -102,7 +102,7 @@ export default function SectionsNav() {
         {active && ActivePanel ? (
           <div
             key={active}
-            className="animate-section-fade-in min-h-0 w-full flex-1 overflow-y-auto overscroll-contain"
+            className="animate-section-fade-in min-h-0 w-full flex-1 overflow-y-auto overscroll-contain [overflow-anchor:none]"
           >
             <h2 className="mr-6 text-right font-sans text-2xl font-bold text-[#6B835B] sm:hidden">
               {content.nav[active]}
