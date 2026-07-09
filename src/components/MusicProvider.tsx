@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 type MusicContextValue = {
   playing: boolean;
@@ -30,15 +31,22 @@ export function useMusic() {
 export default function MusicProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
+  const isMobile = useIsMobile();
+  const autoplayAttempted = useRef(false);
 
   useEffect(() => {
+    // Desktop has no splash/gesture to hook into, so try autoplay on load.
+    // Mobile opens on the "Entrar" splash — wait for that click (start())
+    // instead, since browsers block unsolicited autoplay with sound anyway.
+    if (isMobile || autoplayAttempted.current) return;
+    autoplayAttempted.current = true;
     audioRef.current
       ?.play()
       .then(() => setPlaying(true))
       .catch(() => {
         // Autoplay was blocked; wait for a user gesture via start()/toggle().
       });
-  }, []);
+  }, [isMobile]);
 
   const start = useCallback(() => {
     const audio = audioRef.current;
