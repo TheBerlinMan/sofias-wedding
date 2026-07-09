@@ -32,7 +32,7 @@ export default function CeremonySection() {
             href={content.ceremony.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="block cursor-pointer underline underline-offset-4 sm:no-underline sm:hover:underline"
+            className="block cursor-pointer underline-offset-4 sm:hover:underline"
           >
             <ShapeWrappedText text={content.ceremony.addressLine1} />
             <ShapeWrappedText text={content.ceremony.addressLine2} />
