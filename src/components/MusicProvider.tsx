@@ -4,12 +4,10 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useRef,
   useState,
   type ReactNode,
 } from "react";
-import { useIsMobile } from "@/lib/useIsMobile";
 
 type MusicContextValue = {
   playing: boolean;
@@ -20,8 +18,8 @@ type MusicContextValue = {
 const MusicContext = createContext<MusicContextValue | null>(null);
 
 // Exposes the shared <audio> element's state so any gesture in the tree
-// (e.g. the mobile splash's "Entrar" button) can start playback — browsers
-// block unsolicited autoplay with sound, so we need a real click to hook into.
+// (the splash's "Entrar" button) can start playback — browsers block
+// unsolicited autoplay with sound, so we need a real click to hook into.
 export function useMusic() {
   const ctx = useContext(MusicContext);
   if (!ctx) throw new Error("useMusic must be used within MusicProvider");
@@ -31,22 +29,6 @@ export function useMusic() {
 export default function MusicProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
-  const isMobile = useIsMobile();
-  const autoplayAttempted = useRef(false);
-
-  useEffect(() => {
-    // Desktop has no splash/gesture to hook into, so try autoplay on load.
-    // Mobile opens on the "Entrar" splash — wait for that click (start())
-    // instead, since browsers block unsolicited autoplay with sound anyway.
-    if (isMobile || autoplayAttempted.current) return;
-    autoplayAttempted.current = true;
-    audioRef.current
-      ?.play()
-      .then(() => setPlaying(true))
-      .catch(() => {
-        // Autoplay was blocked; wait for a user gesture via start()/toggle().
-      });
-  }, [isMobile]);
 
   const start = useCallback(() => {
     const audio = audioRef.current;
@@ -80,8 +62,8 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Rendered by HeroStage inside its gated content div, so on mobile it only
-// appears once "Entrar" has been pressed (desktop has no splash gate).
+// Rendered by HeroStage inside its gated content div, so it only appears
+// once "Entrar" has been pressed.
 export function MusicToggleButton({ className = "" }: { className?: string }) {
   const { playing, toggle } = useMusic();
 
